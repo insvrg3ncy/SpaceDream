@@ -194,6 +194,13 @@ namespace Content.Client.Options.UI.Tabs
             AddButton(ContentKeyFunctions.MoveStoredItem);
             AddButton(ContentKeyFunctions.RotateStoredItem);
             AddButton(ContentKeyFunctions.SaveItemLocation);
+            AddButton(ContentKeyFunctions.TogglePosing); // ADt-Posing
+            AddButton(ContentKeyFunctions.PosingOffsetLeft); // ADT-Posing
+            AddButton(ContentKeyFunctions.PosingOffsetRight); // ADT-Posing
+            AddButton(ContentKeyFunctions.PosingOffsetUp); // ADT-Posing
+            AddButton(ContentKeyFunctions.PosingOffsetDown); // ADT-Posing
+            AddButton(ContentKeyFunctions.PosingRotateNegative); // ADT-Posing
+            AddButton(ContentKeyFunctions.PosingRotatePositive); // ADT-Posing
 
             AddHeader("ui-options-header-interaction-adv");
             AddButton(ContentKeyFunctions.SmartEquipBackpack);

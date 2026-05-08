@@ -78,6 +78,7 @@
     - Pacified
     - Flashed
     - Adrenaline
+  - type: Posing # ADT-Posing
   - type: Identity
   - type: IdExaminable
   - type: Internals
