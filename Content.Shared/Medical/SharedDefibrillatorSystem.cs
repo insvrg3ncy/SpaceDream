@@ -241,6 +241,7 @@ public abstract class SharedDefibrillatorSystem : EntitySystem
 
         var ev = new TargetDefibrillatedEvent(user, (ent.Owner, ent.Comp));
         RaiseLocalEvent(target, ref ev);
+        RaiseNetworkEvent(new DefibrillatedTargetSoundEvent(), target); // TSF edit
     }
 
     // TODO: SharedEuiManager so that we can just directly open the eui from shared.
