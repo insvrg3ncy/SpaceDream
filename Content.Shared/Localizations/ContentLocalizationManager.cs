@@ -25,31 +25,42 @@ namespace Content.Shared.Localizations
 
         public void Initialize()
         {
-            var culture = new CultureInfo(Culture);
+            var culture = CultureInfo.GetCultureInfo(Culture);
+            var cultureEn = CultureInfo.GetCultureInfo("en-US");
 
+            // Load English alongside primary culture: many prototype LocIds only exist in en-US FTL; fallbacks satisfy
+            // LocIdSerializer (YAML linter) while DefaultCulture stays Russian.
+            _loc.LoadCulture(cultureEn);
             _loc.LoadCulture(culture);
-            _loc.AddFunction(culture, "PRESSURE", FormatPressure);
-            _loc.AddFunction(culture, "POWERWATTS", FormatPowerWatts);
-            _loc.AddFunction(culture, "POWERJOULES", FormatPowerJoules);
-            // NOTE: ENERGYWATTHOURS() still takes a value in joules, but formats as watt-hours.
-            _loc.AddFunction(culture, "ENERGYWATTHOURS", FormatEnergyWattHours);
-            _loc.AddFunction(culture, "UNITS", FormatUnits);
-            _loc.AddFunction(culture, "TOSTRING", args => FormatToString(culture, args));
-            _loc.AddFunction(culture, "LOC", FormatLoc);
-            _loc.AddFunction(culture, "NATURALFIXED", FormatNaturalFixed);
-            _loc.AddFunction(culture, "NATURALPERCENT", FormatNaturalPercent);
-            _loc.AddFunction(culture, "PLAYTIME", FormatPlaytime);
+            _loc.SetCulture(culture);
+            _loc.SetFallbackCluture(cultureEn);
 
+            void AddSharedFluentFunctions(CultureInfo c)
+            {
+                _loc.AddFunction(c, "PRESSURE", FormatPressure);
+                _loc.AddFunction(c, "POWERWATTS", FormatPowerWatts);
+                _loc.AddFunction(c, "POWERJOULES", FormatPowerJoules);
+                // NOTE: ENERGYWATTHOURS() still takes a value in joules, but formats as watt-hours.
+                _loc.AddFunction(c, "ENERGYWATTHOURS", FormatEnergyWattHours);
+                _loc.AddFunction(c, "UNITS", FormatUnits);
+                _loc.AddFunction(c, "TOSTRING", args => FormatToString(c, args));
+                _loc.AddFunction(c, "LOC", FormatLoc);
+                _loc.AddFunction(c, "NATURALFIXED", FormatNaturalFixed);
+                _loc.AddFunction(c, "NATURALPERCENT", FormatNaturalPercent);
+                _loc.AddFunction(c, "PLAYTIME", FormatPlaytime);
+            }
+
+            AddSharedFluentFunctions(culture);
+            AddSharedFluentFunctions(cultureEn);
 
             /*
              * The following language functions are specific to the english localization. When working on your own
              * localization you should NOT modify these, instead add new functions specific to your language/culture.
              * This ensures the english translations continue to work as expected when fallbacks are needed.
              */
-            var cultureEn = new CultureInfo("ru-RU");
-
             _loc.AddFunction(cultureEn, "MAKEPLURAL", FormatMakePlural);
             _loc.AddFunction(cultureEn, "MANY", FormatMany);
+            // SD edit end
         }
 
         private ILocValue FormatMany(LocArgs args)
